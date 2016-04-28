@@ -2,7 +2,7 @@ public class SimpleThreads{
   //Display a message, preceded by
   //the name of the current thread
   static void threadMessage(String message){
-    String threadMessage = Thread.currentThread().getName();
+    String threadName = Thread.currentThread().getName();
     System.out.format("%s: %s%n", threadName, message);
   }
 
@@ -17,7 +17,7 @@ public class SimpleThreads{
           "que you fui el arquitecto de mi propio destino"
         };
         try{
-          for(int i=0, i < importantInfo.length; i++){
+          for(int i=0; i < importantInfo.length; i++){
             //Pause for 4 seconds
             Thread.sleep(4000);
             //Print a message
@@ -29,7 +29,7 @@ public class SimpleThreads{
       }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
       throws InterruptedException {
         //Delay, in milliseconds before
         //we interrupted MessageLoop
@@ -62,8 +62,16 @@ public class SimpleThreads{
           //for MessageLoop thread
           //to finish
           t.join(1000);
-          
+          if(((System.currentTimeMillis() - startTime) > patience)
+            && t.isAlive()){
+              threadMessage("Cansado de esperar!");
+              t.interrupt();
+              //Shouldn't be long now
+              //... wait indefinitely
+              t.join();
+            }
         }
+        threadMessage("Finalmente");
       }
-    }
+
 }
